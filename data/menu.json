@@ -9,7 +9,7 @@
       "sections": [
         {
           "items": [
-            { "name": "Lungo", "desc": "Klassieke kop koffie", "price": "2,95", "price2": "4,50" },
+            { "name": "Lungo", "desc": "Klassieke kop koffie", "price": "2,90", "price2": "4,50" },
             { "name": "Espresso", "desc": "Sterke Italiaanse espresso met zoete en kruidige smaak", "price": "2,90", "price2": "4,50" },
             { "name": "Americano", "desc": "Espresso aangevuld met heet water", "price": "2,90", "price2": "4,50" },
             { "name": "Ristretto", "desc": "Korte espresso, krachtig van smaak", "price": "2,90", "price2": "4,50" },
