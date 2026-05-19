@@ -1,0 +1,41 @@
+{
+  "score": "4.7",
+  "source": "Google Reviews",
+  "reviews": [
+    {
+      "stars": 5,
+      "text": "Erg mooie zaak. Eten was erg lekker en vers. Ontbijtjes en brood met carpaccio. Bediening erg vriendelijk. Prijs ook normaal. Heerlijke cappuccino.",
+      "author": "Steef Meessen",
+      "badge": "Local Guide",
+      "featured": true
+    },
+    {
+      "stars": 5,
+      "text": "Voor een fijne gezellige ochtend en een heerlijk ontbijt ben je hier op de goede plek. Ze werken met vers gemalen bonen en nog warme croissants. Zeker het proberen waard!",
+      "author": "Darian Fijten",
+      "badge": "Local Guide",
+      "featured": true
+    },
+    {
+      "stars": 5,
+      "text": "Eerste keer hier genoten van koffie en taart. Wat super hier. Koffie is van topkwaliteit en gebak ook top. Lekker knus en huiselijk. Hier komen we zeer zeker terug.",
+      "author": "Maurice Schaafstra",
+      "badge": "Local Guide",
+      "featured": true
+    },
+    {
+      "stars": 5,
+      "text": "A lovely neighborhood coffee spot where friends, couples, a man and his dog gathered to enjoy a fresh cup of coffee and maybe some lunch.",
+      "author": "James Conner",
+      "badge": "Local Guide",
+      "featured": false
+    },
+    {
+      "stars": 5,
+      "text": "Heerlijk vertoeven in het centrum van Oirsbeek. Altijd een gezellig plekje! Goeie service en lekkere hapjes!!",
+      "author": "Hannie Ubachs",
+      "badge": "Google Reviewer",
+      "featured": false
+    }
+  ]
+}

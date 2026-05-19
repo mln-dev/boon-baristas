@@ -1,0 +1,41 @@
+{
+  "name": "Boon Barista's",
+  "tagline": "Serving coffee, cake and character",
+  "address": {
+    "street": "Raadhuisstraat 29",
+    "postcode": "6438 AB",
+    "city": "Oirsbeek",
+    "region": "Zuid-Limburg"
+  },
+  "email": "info@boonbaristas.nl",
+  "socials": {
+    "instagram": "https://www.instagram.com/boon_baristas/",
+    "facebook": "https://www.facebook.com/boonbaristas/?locale=nl_NL",
+    "tripadvisor": "https://www.tripadvisor.nl/Restaurant_Review-g4439554-d10455468-Reviews-Boon_Barista_s-Oirsbeek_Limburg_Province.html"
+  },
+  "hours": [
+    { "day": "Maandag", "time": "Gesloten" },
+    { "day": "Dinsdag – Zaterdag", "time": "09:00 – 17:00" },
+    { "day": "Zondag", "time": "10:00 – 17:00" }
+  ],
+  "hoursNote": "Openingstijden kunnen afwijken op feestdagen.",
+  "about": {
+    "title": "Waar koffie een ambacht is",
+    "paragraphs": [
+      "In het hart van Oirsbeek, verscholen in de heuvels van Zuid-Limburg, vind je Boon Barista's. Een plek waar de tijd even stilstaat en elke kop koffie met zorg wordt gezet.",
+      "Wij geloven dat goede koffie meer is dan een drankje — het is een moment van rust, een goed gesprek, een klein geluksmomentje in je dag."
+    ],
+    "stats": [
+      { "value": "100%", "label": "Specialty Coffee" },
+      { "value": "Vers", "label": "Gebak van de dag" },
+      { "value": "♥", "label": "Met liefde gezet" }
+    ]
+  },
+  "quote": "Het leven is te kort voor slechte koffie",
+  "images": {
+    "hero": "assets/hero-coffee-beans.jpg",
+    "about": "assets/about-photo.jpg",
+    "logoWhite": "assets/logo-white.png",
+    "logoBlack": "assets/logo-black.png"
+  }
+}
