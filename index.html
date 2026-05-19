@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boon Barista's — Serving Coffee, Cake and Character</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --black-light: #111111;
+    --black-card: #161616;
+    --gold: #c9a96e;
+    --gold-dim: #8a7044;
+    --white: #f0ece4;
+    --white-dim: #a09888;
+    --grey: #2a2a2a;
+    --grey-line: #1e1e1e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: var(--gold); color: var(--black); }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+    padding: 1.5rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: all .5s cubic-bezier(.22,1,.36,1);
+  }
+  nav.scrolled {
+    padding: 1rem 4rem;
+    background: rgba(10,10,10,.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--grey-line);
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 1rem;
+    text-decoration: none; color: var(--white);
+  }
+  .nav-hex {
+    width: 72px; height: 72px;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .4s cubic-bezier(.22,1,.36,1);
+  }
+  .nav-hex:hover { transform: rotate(60deg) scale(1.1); }
+  .nav-hex img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .nav-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-weight: 400; letter-spacing: .04em;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--white-dim);
+    font-size: .72rem; font-weight: 500; letter-spacing: .18em;
+    text-transform: uppercase;
+    transition: color .3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* nav socials */
+  .nav-right { display: flex; align-items: center; gap: 2.5rem; }
+  .nav-socials {
+    display: flex; gap: .6rem; align-items: center;
+    padding-left: 1.6rem;
+    border-left: 1px solid var(--grey-line);
+    transition: border-color .4s;
+  }
+  nav.scrolled .nav-socials { border-left-color: var(--grey); }
+  .nav-social {
+    width: 32px; height: 32px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--white-dim);
+    text-decoration: none;
+    border-radius: 50%;
+    transition: color .35s cubic-bezier(.22,1,.36,1), transform .35s cubic-bezier(.22,1,.36,1), background .35s;
+  }
+  .nav-social:hover {
+    color: var(--gold);
+    transform: translateY(-2px);
+  }
+  .nav-social svg { width: 16px; height: 16px; display: block; }
+
+  /* ── HERO ── */
+  .hero {
+    height: 100vh; position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      url('assets/hero-coffee-beans.jpg')
+      center/cover no-repeat;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(10,10,10,.7) 0%, rgba(10,10,10,.4) 40%, rgba(10,10,10,.85) 100%),
+      linear-gradient(270deg, rgba(10,10,10,.5) 0%, transparent 50%);
+  }
+  .hero-grain {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero-content {
+    position: absolute; inset: 0; z-index: 2;
+    text-align: center; padding: 2rem;
+  }
+  .hero-top {
+    position: absolute; top: 8vh; left: 0; right: 0;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .hero-middle {
+    position: absolute; top: 58%; left: 0; right: 0;
+    transform: translateY(-50%);
+    padding: 0 2rem;
+  }
+  .hero-logo {
+    width: 240px; height: 240px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: center;
+    animation: fadeIn 1s .3s both;
+  }
+  .hero-logo img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 6px 24px rgba(0,0,0,.45));
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+    font-weight: 300; color: var(--white);
+    line-height: 1.1; letter-spacing: -.01em;
+    animation: fadeUp .8s .8s both;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    margin-top: 1.5rem;
+    font-size: .75rem; color: var(--white-dim);
+    letter-spacing: .3em; text-transform: uppercase; font-weight: 400;
+    animation: fadeUp .8s 1.1s both;
+  }
+  .hero-scroll {
+    position: absolute; bottom: 3rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: .6rem;
+    animation: fadeIn 1s 1.8s both;
+  }
+  .hero-scroll-text {
+    font-size: .6rem; letter-spacing: .3em; text-transform: uppercase; color: var(--white-dim);
+  }
+  .hero-scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(var(--gold-dim), transparent);
+    animation: scrollPulse 2.5s infinite;
+  }
+  @keyframes scrollPulse { 0%,100% { opacity: .2; } 50% { opacity: .8; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(35px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--grey-line); max-width: 1200px; margin: 0 auto; }
+
+  /* ── SECTIONS ── */
+  section { padding: 7rem 4rem; }
+  .section-label {
+    font-size: .65rem; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: .6rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-weight: 300; line-height: 1.15; margin-bottom: 1.5rem; color: var(--white);
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* ── ABOUT ── */
+  .about {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1.1fr; gap: 6rem; align-items: center;
+  }
+  .about-img {
+    position: relative; aspect-ratio: 3/4; overflow: hidden;
+  }
+  .about-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(.85) contrast(1.05);
+  }
+  .about-img::after {
+    content: ''; position: absolute; inset: 0;
+    border: 1px solid var(--grey); pointer-events: none;
+  }
+  .about-text p {
+    font-size: .95rem; line-height: 1.9;
+    color: var(--white-dim); font-weight: 300; margin-bottom: 1.5rem;
+  }
+  .about-detail {
+    display: flex; gap: 3rem; margin-top: 2.5rem;
+    padding-top: 2rem; border-top: 1px solid var(--grey-line);
+  }
+  .about-detail-item .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; font-weight: 300; color: var(--gold); line-height: 1;
+  }
+  .about-detail-item .label {
+    font-size: .65rem; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--white-dim); margin-top: .3rem;
+  }
+
+  /* ── MENU ── */
+  .menu-section { background: var(--black-light); }
+  .menu-inner { max-width: 900px; margin: 0 auto; }
+
+  .menu-accordion { margin-top: 3.5rem; }
+  .menu-category {
+    border-bottom: 1px solid var(--grey-line);
+  }
+  .menu-category:first-child { border-top: 1px solid var(--grey-line); }
+  .menu-cat-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.6rem 0; cursor: pointer;
+    transition: color .3s;
+    -webkit-user-select: none; user-select: none;
+  }
+  .menu-cat-header:hover { color: var(--gold); }
+  .menu-cat-header h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 400;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .menu-cat-num {
+    font-size: .8rem; color: var(--gold-dim);
+    font-family: 'Manrope', sans-serif; font-weight: 400;
+    letter-spacing: .05em;
+  }
+  .menu-cat-arrow {
+    width: 28px; height: 28px;
+    border: 1px solid var(--grey);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .7rem; color: var(--white-dim);
+    transition: transform .4s cubic-bezier(.22,1,.36,1), border-color .3s;
+    flex-shrink: 0;
+  }
+  .menu-category.open .menu-cat-arrow {
+    transform: rotate(180deg); border-color: var(--gold-dim);
+  }
+  .menu-cat-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height .5s cubic-bezier(.22,1,.36,1), padding .3s;
+  }
+  .menu-category.open .menu-cat-body {
+    max-height: 2500px;
+    padding-bottom: 2rem;
+  }
+  .menu-sub-header {
+    font-size: .7rem; font-weight: 600; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--gold);
+    padding: 1.2rem 0 .6rem; margin-top: .5rem;
+  }
+  .menu-sub-note {
+    font-size: .78rem; color: var(--white-dim); font-weight: 300;
+    font-style: italic; margin-bottom: .8rem;
+  }
+  .menu-col-header {
+    display: flex; justify-content: flex-end; gap: 2rem;
+    padding: .4rem 0; margin-bottom: .3rem;
+  }
+  .menu-col-header span {
+    font-size: .65rem; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--white-dim); width: 50px; text-align: right;
+  }
+  .menu-item {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: .55rem 0;
+    border-bottom: 1px solid rgba(30,30,30,.6);
+  }
+  .menu-item:last-child { border-bottom: none; }
+  .menu-item-info { flex: 1; min-width: 0; }
+  .menu-item-name {
+    font-size: .9rem; font-weight: 400; color: var(--white);
+  }
+  .menu-item-desc {
+    font-size: .75rem; color: var(--white-dim); font-weight: 300;
+    margin-top: .15rem;
+  }
+  .menu-item-prices {
+    display: flex; gap: 2rem; flex-shrink: 0; margin-left: 1.5rem;
+  }
+  .menu-item-price {
+    font-size: .85rem; color: var(--gold); font-weight: 500;
+    width: 50px; text-align: right; letter-spacing: .02em;
+  }
+  .menu-item-price.single-price { width: auto; }
+
+  /* boxed menu items (ontbijt, kids, warm dranken) */
+  .menu-box {
+    border: 1px solid var(--grey); padding: 1.5rem 1.8rem;
+    margin: .8rem 0 1.2rem;
+  }
+  .menu-box-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; color: var(--white); margin-bottom: .8rem;
+  }
+  .menu-box p {
+    font-size: .82rem; line-height: 1.7; color: var(--white-dim); font-weight: 300;
+  }
+  .menu-box .menu-box-price {
+    margin-top: .8rem; color: var(--gold); font-size: .85rem; font-weight: 500;
+  }
+
+  /* ── PARALLAX BREAK ── */
+  .parallax-break { height: 50vh; position: relative; overflow: hidden; }
+  .parallax-break-bg {
+    position: absolute; inset: -20%;
+    background: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1920&q=80&auto=format') center/cover no-repeat;
+  }
+  .parallax-break-overlay { position: absolute; inset: 0; background: rgba(10,10,10,.75); }
+  .parallax-break-content {
+    position: relative; z-index: 2; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 2rem;
+  }
+  .parallax-break-content blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 300; font-style: italic; color: var(--white);
+    line-height: 1.4; max-width: 700px;
+  }
+  .parallax-break-content blockquote span {
+    display: block; margin-top: 1rem;
+    font-size: .7rem; font-style: normal;
+    letter-spacing: .25em; text-transform: uppercase; color: var(--gold-dim);
+  }
+
+  /* ── VISIT ── */
+  .visit-section { max-width: 1200px; margin: 0 auto; }
+  .visit-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--grey-line); margin-top: 3.5rem;
+  }
+  .visit-info { background: var(--black-card); padding: 3.5rem; }
+  .visit-info h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 400; margin-bottom: 1rem; color: var(--white);
+  }
+  .visit-info p {
+    font-size: .9rem; line-height: 1.8; color: var(--white-dim);
+    font-weight: 300; margin-bottom: 2rem;
+  }
+  .hours-table { width: 100%; border-collapse: collapse; }
+  .hours-table td {
+    padding: .55rem 0; border-bottom: 1px solid var(--grey-line);
+    font-size: .82rem; font-weight: 300; color: var(--white-dim);
+  }
+  .hours-table td:last-child {
+    text-align: right; color: var(--gold); font-weight: 500; letter-spacing: .03em;
+  }
+  .hours-table tr:last-child td { border-bottom: none; }
+  .visit-map {
+    background: var(--black-card); position: relative; overflow: hidden; min-height: 400px;
+  }
+  .visit-map iframe {
+    width: 100%; height: 100%; min-height: 400px; border: 0;
+    filter: grayscale(1) brightness(.6) contrast(1.3);
+    transition: filter .5s;
+  }
+  .visit-map:hover iframe { filter: grayscale(.5) brightness(.7) contrast(1.1); }
+  .cta-btn {
+    display: inline-block; margin-top: 2rem;
+    padding: .85rem 2.5rem;
+    border: 1px solid var(--gold); color: var(--gold);
+    text-decoration: none;
+    font-size: .7rem; font-weight: 500;
+    letter-spacing: .2em; text-transform: uppercase;
+    transition: all .4s cubic-bezier(.22,1,.36,1);
+  }
+  .cta-btn:hover { background: var(--gold); color: var(--black); }
+
+  /* ── FOOTER ── */
+  footer { padding: 3rem 4rem; border-top: 1px solid var(--grey-line); }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  /* ── SOCIALS ── */
+  .socials {
+    display: flex; gap: .8rem; align-items: center;
+    margin-top: 1.2rem;
+  }
+  .socials.socials-footer { justify-content: flex-end; }
+  .social-link {
+    width: 40px; height: 40px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid var(--grey);
+    color: var(--white-dim);
+    text-decoration: none;
+    transition: color .35s cubic-bezier(.22,1,.36,1),
+                border-color .35s cubic-bezier(.22,1,.36,1),
+                background .35s cubic-bezier(.22,1,.36,1),
+                transform .35s cubic-bezier(.22,1,.36,1);
+  }
+  .social-link:hover {
+    color: var(--black);
+    background: var(--gold);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+  }
+  .social-link svg { width: 16px; height: 16px; display: block; }
+  .socials-label {
+    font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--white-dim); font-weight: 500;
+    margin-top: 2rem; margin-bottom: .2rem;
+  }
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--gold);
+  }
+  footer p { font-size: .72rem; color: var(--white-dim); letter-spacing: .05em; }
+  footer a { color: var(--gold-dim); text-decoration: none; transition: color .3s; }
+  footer a:hover { color: var(--gold); }
+
+  /* ── REVIEWS ── */
+  .reviews-section { background: var(--black); }
+  .reviews-inner { max-width: 1200px; margin: 0 auto; }
+  .reviews-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 3.5rem;
+  }
+  .reviews-score {
+    display: flex; align-items: center; gap: 1.2rem;
+  }
+  .reviews-score-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem; font-weight: 300; color: var(--gold); line-height: 1;
+  }
+  .reviews-score-stars { color: var(--gold); font-size: 1rem; letter-spacing: .15em; }
+  .reviews-score-label {
+    font-size: .7rem; color: var(--white-dim); letter-spacing: .05em; margin-top: .2rem;
+  }
+  .reviews-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--grey-line);
+  }
+  .review-card {
+    background: var(--black-card); padding: 2.5rem 2rem;
+    display: flex; flex-direction: column;
+  }
+  .review-stars {
+    color: var(--gold); font-size: .75rem; letter-spacing: .2em; margin-bottom: 1.2rem;
+  }
+  .review-text {
+    font-size: .88rem; line-height: 1.75; color: var(--white-dim);
+    font-weight: 300; font-style: italic; flex: 1;
+  }
+  .review-author {
+    margin-top: 1.5rem; padding-top: 1.2rem;
+    border-top: 1px solid var(--grey-line);
+  }
+  .review-author-name {
+    font-size: .8rem; font-weight: 500; color: var(--white); letter-spacing: .03em;
+  }
+  .review-author-badge {
+    font-size: .65rem; color: var(--gold-dim); margin-top: .2rem;
+    letter-spacing: .05em;
+  }
+  .reviews-bottom {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
+    background: var(--grey-line); margin-top: 1px;
+  }
+  .review-card-small {
+    background: var(--black-card); padding: 2rem;
+  }
+  .review-card-small .review-text { font-size: .85rem; }
+
+  @media (max-width: 900px) {
+    .reviews-grid { grid-template-columns: 1fr; }
+    .reviews-bottom { grid-template-columns: 1fr; }
+  }
+
+  /* ── REVEAL ── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .9s cubic-bezier(.22,1,.36,1), transform .9s cubic-bezier(.22,1,.36,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.8rem; }
+    nav.scrolled { padding: .8rem 1.8rem; }
+    .nav-links { display: none; }
+    .nav-socials { padding-left: 0; border-left: none; }
+    section { padding: 5rem 1.8rem; }
+    .about { grid-template-columns: 1fr; gap: 3rem; }
+    .about-img { max-height: 50vh; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .visit-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-brand">
+    <div class="nav-hex"><img src="assets/boon-logo.png" alt="Boon Barista's"></div>
+    <span class="nav-name">Boon Barista's</span>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#over">Over ons</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#bezoek">Bezoek</a></li>
+    </ul>
+    <div class="nav-socials">
+      <a href="https://www.instagram.com/boon_baristas/" target="_blank" rel="noopener" class="nav-social" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+      <a href="https://www.facebook.com/boonbaristas/?locale=nl_NL" target="_blank" rel="noopener" class="nav-social" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9h3V5.5h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v7H14v-7h2.5l.5-3H14V9.5c0-.3.2-.5.5-.5z"></path></svg>
+      </a>
+      <a href="https://www.tripadvisor.nl/Restaurant_Review-g4439554-d10455468-Reviews-Boon_Barista_s-Oirsbeek_Limburg_Province.html" target="_blank" rel="noopener" class="nav-social" aria-label="Tripadvisor">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="14" r="3.5"></circle><circle cx="17.5" cy="14" r="3.5"></circle><circle cx="6.5" cy="14" r="1" fill="currentColor" stroke="none"></circle><circle cx="17.5" cy="14" r="1" fill="currentColor" stroke="none"></circle><path d="M3 10c2.5-3 15.5-3 18 0"></path></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-content">
+    <div class="hero-top">
+      <div class="hero-logo">
+        <img src="assets/boon-logo.png" alt="Boon Barista's">
+      </div>
+    </div>
+    <div class="hero-middle">
+      <h1>Serving coffee,<br><em>cake</em> and character</h1>
+      <p class="hero-sub">Raadhuisstraat 29 · Oirsbeek</p>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span class="hero-scroll-text">Ontdek</span>
+    <span class="hero-scroll-line"></span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="over">
+  <div class="about">
+    <div class="about-img reveal">
+      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80&auto=format" alt="Koffie bij Boon Barista's">
+    </div>
+    <div class="about-text reveal">
+      <p class="section-label">Over ons</p>
+      <h2 class="section-title">Waar koffie<br>een <em>ambacht</em> is</h2>
+      <p>In het hart van Oirsbeek, verscholen in de heuvels van Zuid-Limburg, vind je Boon Barista's. Een plek waar de tijd even stilstaat en elke kop koffie met zorg wordt gezet.</p>
+      <p>Wij geloven dat goede koffie meer is dan een drankje — het is een moment van rust, een goed gesprek, een klein geluksmomentje in je dag.</p>
+      <div class="about-detail">
+        <div class="about-detail-item">
+          <div class="num">100%</div>
+          <div class="label">Specialty Coffee</div>
+        </div>
+        <div class="about-detail-item">
+          <div class="num">Vers</div>
+          <div class="label">Gebak van de dag</div>
+        </div>
+        <div class="about-detail-item">
+          <div class="num">♥</div>
+          <div class="label">Met liefde gezet</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MENU -->
+<section id="menu" class="menu-section">
+  <div class="menu-inner">
+    <div class="reveal">
+      <p class="section-label">Ons aanbod</p>
+      <h2 class="section-title">De <em>menukaart</em></h2>
+    </div>
+
+    <div class="menu-accordion">
+
+      <!-- 01 KOFFIE -->
+      <div class="menu-category reveal">
+        <div class="menu-cat-header" onclick="toggleMenu(this)">
+          <h3><span class="menu-cat-num">01</span> Koffie</h3>
+          <div class="menu-cat-arrow">▼</div>
+        </div>
+        <div class="menu-cat-body">
+          <div class="menu-col-header"><span>Single</span><span>Double</span></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Lungo</div><div class="menu-item-desc">Klassieke kop koffie</div></div><div class="menu-item-prices"><span class="menu-item-price">2,90</span><span class="menu-item-price">4,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Espresso</div><div class="menu-item-desc">Sterke Italiaanse espresso met zoete en kruidige smaak</div></div><div class="menu-item-prices"><span class="menu-item-price">2,90</span><span class="menu-item-price">4,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Americano</div><div class="menu-item-desc">Espresso aangevuld met heet water</div></div><div class="menu-item-prices"><span class="menu-item-price">2,90</span><span class="menu-item-price">4,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Ristretto</div><div class="menu-item-desc">Korte espresso, krachtig van smaak</div></div><div class="menu-item-prices"><span class="menu-item-price">2,90</span><span class="menu-item-price">4,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Espresso Macchiato</div><div class="menu-item-desc">Espresso met een 'toefje' melkschuim</div></div><div class="menu-item-prices"><span class="menu-item-price">3,00</span><span class="menu-item-price">4,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Cortado</div><div class="menu-item-desc">Espresso aangevuld met warme melk</div></div><div class="menu-item-prices"><span class="menu-item-price">3,00</span><span class="menu-item-price">4,50</span></div></div>
+
+          <div class="menu-col-header" style="margin-top:.8rem;"><span></span></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Cappuccino</div><div class="menu-item-desc">Espresso met opgeroomde melk</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">BOON Cappuccino</div><div class="menu-item-desc">Extra sterke cappuccino</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Flat White</div><div class="menu-item-desc">Dubbele espresso met opgeroomde melk</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,70</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Latte Macchiato</div><div class="menu-item-desc">Opgeroomde melk met espresso</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,70</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Caffè Latte</div><div class="menu-item-desc">Koffie met warme melk</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Iced Latte</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Babyccino</div><div class="menu-item-desc">Melkschuim met chocosiroop</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">2,80</span></div></div>
+        </div>
+      </div>
+
+      <!-- 02 ONTBIJT & LUNCH -->
+      <div class="menu-category reveal">
+        <div class="menu-cat-header" onclick="toggleMenu(this)">
+          <h3><span class="menu-cat-num">02</span> Ontbijt &amp; Lunch</h3>
+          <div class="menu-cat-arrow">▼</div>
+        </div>
+        <div class="menu-cat-body">
+          <div class="menu-box">
+            <div class="menu-box-title">Ontbijt</div>
+            <p>Het ontbijt kan besteld worden tot 11:30 uur</p>
+            <p>Warme drank naar keuze · Versgeperst sinaasappelsap · Yoghurt met granola · Croissant · Brood · Divers zoet en hartig beleg · Versgekookt eitje</p>
+            <div class="menu-box-price">15 p.p.</div>
+          </div>
+
+          <div class="menu-sub-header">Toast</div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Toast kaas/tomaat</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">7,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Toast Geitenkaas</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">9,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Toast gerookte zalm</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">10,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Toast pulled pork</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">10,00</span></div></div>
+
+          <div class="menu-sub-header">Salade</div>
+          <div class="menu-sub-note">Onze salades worden geserveerd met brood en boter</div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Caesar</div><div class="menu-item-desc">Kip / Ansjovisdressing / Ei</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">14,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Caprese</div><div class="menu-item-desc">Tomaat / Mozzarella / Pesto dressing</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">14,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Zalm</div><div class="menu-item-desc">Gerookte zalm / Avocado / Dille dressing</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">16,00</span></div></div>
+        </div>
+      </div>
+
+      <!-- 03 LUNCH BROOD -->
+      <div class="menu-category reveal">
+        <div class="menu-cat-header" onclick="toggleMenu(this)">
+          <h3><span class="menu-cat-num">03</span> Lunch — Brood</h3>
+          <div class="menu-cat-arrow">▼</div>
+        </div>
+        <div class="menu-cat-body">
+          <div class="menu-sub-note">Keuze uit wit of bruin zuurdesembrood. Standaard serveren wij bruin zuurdesembrood.</div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Gezond</div><div class="menu-item-desc">Ham / Kaas / Tomaat</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">8,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Carpaccio</div><div class="menu-item-desc">Truffel / Parmezaanse kaas / Pijnboompit</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">12,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Geitenkaas</div><div class="menu-item-desc">Honing / Walnoot / Appel / Rodebietenmayonaise</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">11,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Caprese</div><div class="menu-item-desc">Tomaat / Mozzarella / Pesto</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">10,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Serranoham Roomkaas</div><div class="menu-item-desc">Pesto / Pijnboompit / Tomaat</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">12,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Zalm</div><div class="menu-item-desc">Appel / Avocado / Dille</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">12,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Boon-Club Classic</div><div class="menu-item-desc">Kipfilet / Spek / Cocktailsaus</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">11,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Pulled Pork</div><div class="menu-item-desc">Homemade BBQ-saus</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">11,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Tonijnsalade</div><div class="menu-item-desc">Kappertjes / Tomaat</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">11,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Limburgse Bloedworst</div><div class="menu-item-desc">Gebakken appel / Pijnboompit / Stroop</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">14,00</span></div></div>
+        </div>
+      </div>
+
+      <!-- 04 SOEP & KIDS -->
+      <div class="menu-category reveal">
+        <div class="menu-cat-header" onclick="toggleMenu(this)">
+          <h3><span class="menu-cat-num">04</span> Soep &amp; Kids</h3>
+          <div class="menu-cat-arrow">▼</div>
+        </div>
+        <div class="menu-cat-body">
+          <div class="menu-sub-header">Soep</div>
+          <div class="menu-sub-note">Onze soepen worden geserveerd met brood en boter</div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Tomatensoep</div><div class="menu-item-desc">Basilicum / Croutons</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">7,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Seizoenssoep</div><div class="menu-item-desc">Informeer bij een van onze medewerkers</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">8,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Uiensoep</div><div class="menu-item-desc">Gegratineerd met brood en kaas</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">8,50</span></div></div>
+
+          <div class="menu-box" style="margin-top:1.5rem;">
+            <div class="menu-box-title">Kids</div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Tosti</div><div class="menu-item-desc">Ham / Kaas</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">7,00</span></div></div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Poffertjes</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">5,50</span></div></div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Croissant met Jam of Nutella</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">5,50</span></div></div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Yoghurt met Granola</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,50</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05 WARM & FRIS -->
+      <div class="menu-category reveal">
+        <div class="menu-cat-header" onclick="toggleMenu(this)">
+          <h3><span class="menu-cat-num">05</span> Warm &amp; Fris</h3>
+          <div class="menu-cat-arrow">▼</div>
+        </div>
+        <div class="menu-cat-body">
+          <div class="menu-box">
+            <div class="menu-box-title">Warm</div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Thee</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,00</span></div></div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Verse munt- of gemberthee</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,70</span></div></div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Warme Chocomel</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,00</span></div></div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Chai Latte</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,50</span></div></div>
+          </div>
+
+          <div class="menu-sub-header" style="margin-top:1rem;">Fris</div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Mango smoothie</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">5,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Versgeperst sinaasappelsap</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Homemade iced tea</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,80</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Karaf Limburgs drinkwater</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Coca Cola / Zero / Fanta / 7-up</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Lipton Ice Tea / Green</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Spa Blauw / Rood</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Tonic / Bitter Lemon / Ginger Ale</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Appelsap / Chocomel / Jus d'Orange</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Fristi</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Almdudler</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,70</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Kinderlimonade</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">2,20</span></div></div>
+        </div>
+      </div>
+
+      <!-- 06 ZOETIGHEID & BITES -->
+      <div class="menu-category reveal">
+        <div class="menu-cat-header" onclick="toggleMenu(this)">
+          <h3><span class="menu-cat-num">06</span> Zoetigheid &amp; Bites</h3>
+          <div class="menu-cat-arrow">▼</div>
+        </div>
+        <div class="menu-cat-body">
+          <div class="menu-sub-header">Zoetigheid</div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Cheesecake</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,60</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Brownie</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,80</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Variërend Gebak</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Luxe Variërend Gebak</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,90</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Appeltaart</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,90</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Bananenbrood</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Arretjescake</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Slagroom</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">+0,70</span></div></div>
+
+          <div class="menu-sub-header">Borrel</div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Nacho's uit de oven</div><div class="menu-item-desc">Gesmolten kaas / Guacamole / Homemade BBQ-Saus</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">8,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Pulled Pork Nacho's</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">9,70</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Portie ovenbitterballen 6st.</div><div class="menu-item-desc">Met Limburgse mosterd</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">7,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Borrelplank to share</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">20,50</span></div></div>
+        </div>
+      </div>
+
+      <!-- 07 BIEREN -->
+      <div class="menu-category reveal">
+        <div class="menu-cat-header" onclick="toggleMenu(this)">
+          <h3><span class="menu-cat-num">07</span> Bieren</h3>
+          <div class="menu-cat-arrow">▼</div>
+        </div>
+        <div class="menu-cat-body">
+          <div class="menu-sub-header">Tap</div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Swinckels' 0,25L</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,30</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Swinckels' 0,5L</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">5,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Wisseltap</div><div class="menu-item-desc">Informeer bij een van onze medewerkers</div></div><div class="menu-item-prices"></div></div>
+
+          <div class="menu-sub-header">Flesbier</div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Omer</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">5,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">LeFort Tripel</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">5,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">LeFort</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">5,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">LaTrappe Blond</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">5,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Cornet Oaked</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">5,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Paix Dieu Triple</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">6,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Kwaremont</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">5,50</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Weihenstephaner Weissbier</div><div class="menu-item-desc">0,5L</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">6,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Rodenbach Fruitage</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,80</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Wisselblik/fles</div><div class="menu-item-desc">Informeer bij een van onze medewerkers</div></div><div class="menu-item-prices"></div></div>
+
+          <div class="menu-box" style="margin-top:1.2rem;">
+            <div class="menu-box-title">Alcoholvrij</div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Bavaria Radler 2%</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,50</span></div></div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Swinckels Alcoholvrij</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,50</span></div></div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Kwaremont Alcoholvrij</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">3,50</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 08 WIJN & LIKEUR -->
+      <div class="menu-category reveal">
+        <div class="menu-cat-header" onclick="toggleMenu(this)">
+          <h3><span class="menu-cat-num">08</span> Wijn &amp; Likeur</h3>
+          <div class="menu-cat-arrow">▼</div>
+        </div>
+        <div class="menu-cat-body">
+          <div class="menu-col-header"><span>Glas</span><span>Fles</span></div>
+          <div class="menu-sub-header" style="padding-top:0;">Wit</div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Villa Loren Pinot Grigio</div></div><div class="menu-item-prices"><span class="menu-item-price">5,00</span><span class="menu-item-price">23,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Ca 66 Chardonnay</div></div><div class="menu-item-prices"><span class="menu-item-price">6,00</span><span class="menu-item-price">28,00</span></div></div>
+
+          <div class="menu-sub-header">Rood</div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Masseria Pietrosa Negromano</div></div><div class="menu-item-prices"><span class="menu-item-price">5,00</span><span class="menu-item-price">23,00</span></div></div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">La Mordida Tempranillo</div></div><div class="menu-item-prices"><span class="menu-item-price">5,00</span><span class="menu-item-price">23,00</span></div></div>
+
+          <div class="menu-sub-header">Rosé</div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Care Solidarity Rosado</div></div><div class="menu-item-prices"><span class="menu-item-price">5,00</span><span class="menu-item-price">23,00</span></div></div>
+
+          <div class="menu-sub-header">Mousserend</div>
+          <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Vinicola Decordi Prosecco</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">6,75</span></div></div>
+
+          <div class="menu-box" style="margin-top:1.5rem;">
+            <div class="menu-box-title">Likeuren</div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Damrak Gin-Tonic</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">8,50</span></div></div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Roodemänner Likeuren</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,50</span></div></div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Stocki's Likeuren</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,50</span></div></div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Jägerthee</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,50</span></div></div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Aperol Spritz</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">7,00</span></div></div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Limoncello Spritz</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">7,00</span></div></div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">St. Lamberti Hausbrand</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">4,50</span></div></div>
+            <div class="menu-item"><div class="menu-item-info"><div class="menu-item-name">Aperol Spritz Alcoholvrij</div></div><div class="menu-item-prices"><span class="menu-item-price single-price">5,00</span></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /accordion -->
+  </div>
+</section>
+
+<!-- PARALLAX BREAK -->
+<div class="parallax-break">
+  <div class="parallax-break-bg"></div>
+  <div class="parallax-break-overlay"></div>
+  <div class="parallax-break-content">
+    <blockquote>
+      Het leven is te kort voor slechte koffie
+      <span>— Boon Barista's</span>
+    </blockquote>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<section id="reviews" class="reviews-section">
+  <div class="reviews-inner">
+    <div class="reviews-header reveal">
+      <div>
+        <p class="section-label">Wat onze gasten zeggen</p>
+        <h2 class="section-title">Onze <em>reviews</em></h2>
+      </div>
+      <div class="reviews-score">
+        <div>
+          <div class="reviews-score-num">4.7</div>
+          <div class="reviews-score-label">Google Reviews</div>
+        </div>
+        <div class="reviews-score-stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Erg mooie zaak. Eten was erg lekker en vers. Ontbijtjes en brood met carpaccio. Bediening erg vriendelijk. Prijs ook normaal. Heerlijke cappuccino."</p>
+        <div class="review-author">
+          <div class="review-author-name">Steef Meessen</div>
+          <div class="review-author-badge">Local Guide</div>
+        </div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Voor een fijne gezellige ochtend en een heerlijk ontbijt ben je hier op de goede plek. Ze werken met vers gemalen bonen en nog warme croissants. Zeker het proberen waard!"</p>
+        <div class="review-author">
+          <div class="review-author-name">Darian Fijten</div>
+          <div class="review-author-badge">Local Guide</div>
+        </div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Eerste keer hier genoten van koffie en taart. Wat super hier. Koffie is van topkwaliteit en gebak ook top. Lekker knus en huiselijk. Hier komen we zeer zeker terug."</p>
+        <div class="review-author">
+          <div class="review-author-name">Maurice Schaafstra</div>
+          <div class="review-author-badge">Local Guide</div>
+        </div>
+      </div>
+    </div>
+    <div class="reviews-bottom">
+      <div class="review-card-small reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"A lovely neighborhood coffee spot where friends, couples, a man and his dog gathered to enjoy a fresh cup of coffee and maybe some lunch."</p>
+        <div class="review-author" style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--grey-line);">
+          <div class="review-author-name">James Conner</div>
+          <div class="review-author-badge">Local Guide</div>
+        </div>
+      </div>
+      <div class="review-card-small reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Heerlijk vertoeven in het centrum van Oirsbeek. Altijd een gezellig plekje! Goeie service en lekkere hapjes!!"</p>
+        <div class="review-author" style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--grey-line);">
+          <div class="review-author-name">Hannie Ubachs</div>
+          <div class="review-author-badge">Google Reviewer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BEZOEK -->
+<section id="bezoek">
+  <div class="visit-section">
+    <div class="reveal">
+      <p class="section-label">Bezoek ons</p>
+      <h2 class="section-title">Kom <em>langs</em></h2>
+    </div>
+    <div class="visit-grid">
+      <div class="visit-info reveal">
+        <h3>Adres</h3>
+        <p>Raadhuisstraat 29<br>6438 AB Oirsbeek<br>Zuid-Limburg</p>
+        <h3>Openingstijden</h3>
+        <table class="hours-table">
+          <tr><td>Maandag</td><td>Gesloten</td></tr>
+          <tr><td>Dinsdag – Zaterdag</td><td>09:00 – 17:00</td></tr>
+          <tr><td>Zondag</td><td>10:00 – 17:00</td></tr>
+        </table>
+        <p style="margin-top:1.5rem;font-size:.78rem;color:var(--white-dim);opacity:.7;">
+          Openingstijden kunnen afwijken op feestdagen.
+        </p>
+        <a href="https://maps.google.com/?q=Raadhuisstraat+29+Oirsbeek" class="cta-btn" target="_blank">Route plannen →</a>
+
+        <div class="socials-label">Volg ons</div>
+        <div class="socials">
+          <a href="https://www.instagram.com/boon_baristas/" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg>
+          </a>
+          <a href="https://www.facebook.com/boonbaristas/?locale=nl_NL" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9h3V5.5h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v7H14v-7h2.5l.5-3H14V9.5c0-.3.2-.5.5-.5z"></path></svg>
+          </a>
+          <a href="https://www.tripadvisor.nl/Restaurant_Review-g4439554-d10455468-Reviews-Boon_Barista_s-Oirsbeek_Limburg_Province.html" target="_blank" rel="noopener" class="social-link" aria-label="Tripadvisor">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="14" r="3.5"></circle><circle cx="17.5" cy="14" r="3.5"></circle><circle cx="6.5" cy="14" r="1" fill="currentColor" stroke="none"></circle><circle cx="17.5" cy="14" r="1" fill="currentColor" stroke="none"></circle><path d="M3 10c2.5-3 15.5-3 18 0"></path></svg>
+          </a>
+        </div>
+      </div>
+      <div class="visit-map">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2520.8!2d5.876!3d50.935!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDU2JzA2LjAiTiA1wrA1MicyNy42IkU!5e0!3m2!1snl!2snl!4v1"
+          allowfullscreen loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Boon Barista's</div>
+      <p style="margin-top:.4rem;">Serving coffee, cake and character</p>
+    </div>
+    <div style="text-align:right;">
+      <p>Raadhuisstraat 29 · 6438 AB Oirsbeek</p>
+      <p style="margin-top:.3rem;"><a href="mailto:info@boonbaristas.nl">info@boonbaristas.nl</a></p>
+      <div class="socials socials-footer">
+        <a href="https://www.instagram.com/boon_baristas/" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg>
+        </a>
+        <a href="https://www.facebook.com/boonbaristas/?locale=nl_NL" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9h3V5.5h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v7H14v-7h2.5l.5-3H14V9.5c0-.3.2-.5.5-.5z"></path></svg>
+        </a>
+        <a href="https://www.tripadvisor.nl/Restaurant_Review-g4439554-d10455468-Reviews-Boon_Barista_s-Oirsbeek_Limburg_Province.html" target="_blank" rel="noopener" class="social-link" aria-label="Tripadvisor">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="14" r="3.5"></circle><circle cx="17.5" cy="14" r="3.5"></circle><circle cx="6.5" cy="14" r="1" fill="currentColor" stroke="none"></circle><circle cx="17.5" cy="14" r="1" fill="currentColor" stroke="none"></circle><path d="M3 10c2.5-3 15.5-3 18 0"></path></svg>
+        </a>
+      </div>
+      <p style="margin-top:1rem;font-size:.65rem;opacity:.4;">© 2026 Boon Barista's</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Menu accordion
+  function toggleMenu(header) {
+    const cat = header.parentElement;
+    const wasOpen = cat.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.menu-category.open').forEach(c => c.classList.remove('open'));
+    // Open clicked if it was closed
+    if (!wasOpen) cat.classList.add('open');
+  }
+</script>
+
+</body>
+</html>
