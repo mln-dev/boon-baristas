@@ -659,12 +659,13 @@
     <div class="visit-grid">
       <div class="visit-info reveal">
         <h3>Adres</h3>
-        <p>Raadhuisstraat 29<br>6438 AB Oirsbeek<br>Zuid-Limburg</p>
+        <p>Raadhuisstraat 29<br>6438 GZ Oirsbeek<br>Zuid-Limburg</p>
         <h3>Openingstijden</h3>
         <table class="hours-table">
-          <tr><td>Maandag</td><td>Gesloten</td></tr>
-          <tr><td>Dinsdag – Zaterdag</td><td>09:00 – 17:00</td></tr>
-          <tr><td>Zondag</td><td>10:00 – 17:00</td></tr>
+          <tr><td>Dinsdag – Woensdag</td><td>Gesloten</td></tr>
+          <tr><td>Donderdag</td><td>10:00 – 18:00</td></tr>
+          <tr><td>Vrijdag</td><td>10:00 – 21:00</td></tr>
+          <tr><td>Zaterdag – Maandag</td><td>10:00 – 18:00</td></tr>
         </table>
         <p style="margin-top:1.5rem;font-size:.78rem;color:var(--white-dim);opacity:.7;">
           Openingstijden kunnen afwijken op feestdagen.
@@ -686,7 +687,7 @@
       </div>
       <div class="visit-map">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2520.8!2d5.876!3d50.935!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDU2JzA2LjAiTiA1wrA1MicyNy42IkU!5e0!3m2!1snl!2snl!4v1"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2521.5!2d5.8628!3d50.9382!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c0c7d1a9a9a9a9%3A0x0!2sRaadhuisstraat+29%2C+6438+GZ+Oirsbeek!5e0!3m2!1snl!2snl!4v1"
           allowfullscreen loading="lazy"
           referrerpolicy="no-referrer-when-downgrade">
         </iframe>
@@ -703,7 +704,7 @@
       <p style="margin-top:.4rem;">Serving coffee, cake and character</p>
     </div>
     <div style="text-align:right;">
-      <p>Raadhuisstraat 29 · 6438 AB Oirsbeek</p>
+      <p>Raadhuisstraat 29 · 6438 GZ Oirsbeek</p>
       <p style="margin-top:.3rem;"><a href="mailto:info@boonbaristas.nl">info@boonbaristas.nl</a></p>
       <div class="socials socials-footer">
         <a href="https://www.instagram.com/boon_baristas/" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
@@ -743,8 +744,31 @@
   function toggleMenu(header) {
     const cat = header.parentElement;
     const wasOpen = cat.classList.contains('open');
-    document.querySelectorAll('.menu-category.open').forEach(c => c.classList.remove('open'));
+
+    // Zet smooth scroll tijdelijk uit
+    document.documentElement.style.scrollBehavior = 'auto';
+
+    // Sluit alle open categorieën instant
+    document.querySelectorAll('.menu-category.open').forEach(c => {
+      const body = c.querySelector('.menu-cat-body');
+      body.style.transition = 'none';
+      c.classList.remove('open');
+      body.offsetHeight;
+      body.style.transition = '';
+    });
+
+    // Open aangeklikte als die dicht was
     if (!wasOpen) cat.classList.add('open');
+
+    // Scroll de header in beeld
+    const navHeight = document.getElementById('nav').offsetHeight;
+    const targetTop = header.getBoundingClientRect().top + window.scrollY - navHeight - 16;
+    window.scrollTo(0, targetTop);
+
+    // Zet smooth scroll weer aan
+    requestAnimationFrame(() => {
+      document.documentElement.style.scrollBehavior = '';
+    });
   }
 
   // ── HELPERS ──
